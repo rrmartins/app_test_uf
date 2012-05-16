@@ -1,0 +1,9 @@
+<%= semantic_fields_for :cliente do |f| %>
+  <%= f.inputs do %>
+    <% if !cidades.blank? %>
+      <%= f.input :cidade_id, :label => "Cidade", :collection => cidades.collect{ |c| [c.nome ,c.id]},:required => false %>
+    <% else %>
+      <%= f.input :cidade_id, :label => "Cidade", :collection => [], :required => false %>
+    <% end %>
+  <% end %>
+<% end %>

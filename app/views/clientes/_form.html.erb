@@ -1,0 +1,49 @@
+<%= form_for(@cliente) do |f| %>
+  <% if @cliente.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@cliente.errors.count, "error") %> prohibited this cliente from being saved:</h2>
+
+      <ul>
+      <% @cliente.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :nome %><br />
+    <%= f.text_field :nome %>
+  </div>
+
+  <div class="field">
+    <%= label_tag :uf_id %><br />
+    <%= select_tag :uf_id, options_from_collection_for_select(@uf, "id", "sigla"), :include_blank => true %>
+  </div>
+
+  <div id="addCidadesUf">
+    <%= render :partial => "cidades_uf", :locals => { :cidades => @cidades } %>
+  </div>
+
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>
+
+
+<script type="text/javascript">
+    $(document).ready(function(){
+      
+      $("#uf_id").change(function() {
+        var uf = $('select#uf_id :selected').val();
+        if(uf == ""){ uf="0"; }
+        jQuery.get('/clientes/'+uf+'/cidades_uf/', function(data){
+          $("#addCidadesUf").html(data);
+        });
+        return false;
+      });
+
+    });
+  
+</script>
+
